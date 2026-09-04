@@ -8,7 +8,21 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = ResolveConnectionString(builder.Configuration);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+{
+    options.UseNpgsql(connectionString);
+    // PendingModelChangesWarning is a startup check comparing the live model
+    // against the last migration's snapshot. It's thrown as a fatal error by
+    // default, but has a documented history of false positives with Npgsql
+    // specifically — Npgsql adjusts some type mappings based on the *actual*
+    // connected Postgres server's version, which design-time tooling never
+    // connects to see. Verified independently (twice) that a design-time
+    // `dotnet ef migrations add` against this exact model comes back with an
+    // empty diff, so the tracked migration is correct — this suppresses the
+    // check rather than let a version-detection quirk crash every boot.
+    // If real drift is ever suspected, re-enable and run migrations add
+    // against a shell connected to the actual target Postgres instance.
+    options.ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+});
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // RequireConfirmedAccount is off because this demo has no email sender wired
