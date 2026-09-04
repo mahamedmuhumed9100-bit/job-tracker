@@ -21,10 +21,15 @@ public class JobApplication
     [Display(Name = "Role")]
     public string RoleTitle { get; set; } = string.Empty;
 
+    // DateOnly, not DateTime: this is genuinely just a date, and Npgsql
+    // requires DateTime.Kind to be Utc for a timestamptz column — but a date
+    // bound from an HTML <input type="date"> always comes back Kind=Unspecified,
+    // which throws at write time. DateOnly maps to Postgres's native `date`
+    // type and sidesteps the whole timezone-kind question.
     [Required]
     [DataType(DataType.Date)]
     [Display(Name = "Date applied")]
-    public DateTime DateApplied { get; set; } = DateTime.Today;
+    public DateOnly DateApplied { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Required]
     [Display(Name = "Status")]

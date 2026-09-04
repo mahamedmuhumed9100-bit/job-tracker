@@ -45,11 +45,11 @@ public class JobApplicationService
     /// application has already reached one) — used on the dashboard to
     /// surface applications that have gone quiet.
     /// </summary>
-    public int DaysSinceApplied(JobApplication application, DateTime? today = null)
+    public int DaysSinceApplied(JobApplication application, DateOnly? today = null)
     {
         ArgumentNullException.ThrowIfNull(application);
-        var reference = today ?? DateTime.UtcNow.Date;
-        return Math.Max(0, (reference.Date - application.DateApplied.Date).Days);
+        var reference = today ?? DateOnly.FromDateTime(DateTime.UtcNow);
+        return Math.Max(0, reference.DayNumber - application.DateApplied.DayNumber);
     }
 
     /// <summary>

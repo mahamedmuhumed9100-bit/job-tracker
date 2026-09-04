@@ -53,7 +53,7 @@ public class JobApplicationsController(
     }
 
     // GET: JobApplications/Create
-    public IActionResult Create() => View(new JobApplication { DateApplied = DateTime.Today });
+    public IActionResult Create() => View(new JobApplication { DateApplied = DateOnly.FromDateTime(DateTime.Today) });
 
     // POST: JobApplications/Create
     [HttpPost, ValidateAntiForgeryToken]

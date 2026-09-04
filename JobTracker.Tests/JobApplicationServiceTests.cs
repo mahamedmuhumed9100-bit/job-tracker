@@ -11,7 +11,7 @@ public class JobApplicationServiceTests
         UserId = "user-1",
         CompanyName = "Acme Corp",
         RoleTitle = "Software Engineer Intern",
-        DateApplied = new DateTime(2026, 1, 1),
+        DateApplied = new DateOnly(2026, 1, 1),
         CurrentStatus = status,
         CreatedAt = createdAt ?? new DateTime(2026, 1, 1),
     };
@@ -90,9 +90,9 @@ public class JobApplicationServiceTests
     {
         var service = new JobApplicationService();
         var app = NewApplication();
-        app.DateApplied = new DateTime(2026, 1, 1);
+        app.DateApplied = new DateOnly(2026, 1, 1);
 
-        var days = service.DaysSinceApplied(app, today: new DateTime(2026, 1, 11));
+        var days = service.DaysSinceApplied(app, today: new DateOnly(2026, 1, 11));
 
         Assert.Equal(10, days);
     }
@@ -102,9 +102,9 @@ public class JobApplicationServiceTests
     {
         var service = new JobApplicationService();
         var app = NewApplication();
-        app.DateApplied = new DateTime(2026, 2, 1);
+        app.DateApplied = new DateOnly(2026, 2, 1);
 
-        var days = service.DaysSinceApplied(app, today: new DateTime(2026, 1, 1));
+        var days = service.DaysSinceApplied(app, today: new DateOnly(2026, 1, 1));
 
         Assert.Equal(0, days);
     }
