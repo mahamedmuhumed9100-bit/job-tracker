@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+**/.vs/
+**/JobTracker.Tests/
+.git/
+.github/
+*.db
+*.db-shm
+*.db-wal
+README.md
+docker-compose.yml

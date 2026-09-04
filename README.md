@@ -20,10 +20,10 @@ backs up React.
 
 - ASP.NET Core 10 MVC (Controllers + Razor views)
 - ASP.NET Core Identity for auth
-- Entity Framework Core + SQLite for local development (connection string swaps to
-  Azure SQL Database for a cloud deploy — no code changes needed, EF Core abstracts
-  the provider)
+- Entity Framework Core + PostgreSQL (via Npgsql)
 - xUnit for unit tests
+- Docker + [Render](https://render.com) for deployment (`render.yaml` provisions both
+  the web service and a free Postgres database in one go)
 
 ## Project structure
 
@@ -36,9 +36,12 @@ transitions, history ordering, the "stale application" detection, and edge cases
 
 ## Running locally
 
+Needs a local Postgres — `docker-compose.yml` starts one:
+
 ```bash
+docker compose up -d      # starts a local Postgres on :5432
 dotnet restore
-dotnet ef database update   # creates the local SQLite db
+dotnet ef database update
 dotnet run
 ```
 
@@ -54,6 +57,9 @@ dotnet test
 
 ## Deployment
 
-Not yet deployed to Azure — that's the next step once the account is set up. The
-data-access layer is already written against EF Core's abstractions specifically so
-that step is a connection-string change, not a rewrite.
+Deployed via [Render](https://render.com) as a Docker web service, with a free
+managed Postgres database. `render.yaml` defines both — from Render's dashboard:
+**New → Blueprint → connect this repo → Apply**, and it provisions the database,
+wires its connection string to the web service automatically (`DATABASE_URL`), and
+deploys. `Program.cs` parses that URL into the keyword-value format Npgsql expects,
+and runs any pending migrations on startup.

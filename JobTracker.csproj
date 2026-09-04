@@ -7,10 +7,6 @@
     <UserSecretsId>aspnet-JobTracker-65f15003-8324-47f3-9742-b11441579aa6</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-  </ItemGroup>
-
   <!-- JobTracker.Tests lives under this project's own directory — exclude it
        from the SDK's implicit globs so its files aren't compiled twice. -->
   <ItemGroup>
@@ -24,10 +20,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2" />
-    <!-- Pin past the high-severity advisory in the 2.1.11 transitive dependency pulled in above -->
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.13" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
   </ItemGroup>
 
 </Project>
