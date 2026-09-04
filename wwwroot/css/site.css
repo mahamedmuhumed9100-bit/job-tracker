@@ -1,5 +1,47 @@
+/* ==========================================================================
+   Design tokens — matches the palette used on the portfolio site and the
+   algorithm visualizer, so all three read as one connected body of work.
+   ========================================================================== */
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f6f7f9;
+  --text: #16181d;
+  --text-muted: #5b6270;
+  --border: #e4e6eb;
+  --accent: #2563eb;
+  --accent-text: #ffffff;
+  --danger: #e5484d;
+  --danger-text: #ffffff;
+  --success: #2fb344;
+  --warning: #f5a623;
+  --card-shadow: 0 1px 2px rgba(16, 20, 30, 0.06), 0 8px 24px rgba(16, 20, 30, 0.06);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+[data-theme='dark'] {
+  --bg: #12131a;
+  --bg-alt: #1a1c25;
+  --text: #eef0f4;
+  --text-muted: #a2a8b8;
+  --border: #2a2d3a;
+  --accent: #5b8def;
+  --accent-text: #0b0d12;
+  --danger: #f0656a;
+  --danger-text: #0b0d12;
+  --success: #4cd471;
+  --warning: #f5c04d;
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html {
-  font-size: 14px;
+  font-size: 15px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,24 +50,398 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  padding-bottom: 70px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--accent);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+.app-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.app-nav-inner {
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+.app-brand {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--accent) !important;
+  letter-spacing: -0.02em;
+}
+
+.app-nav-links .nav-link {
+  color: var(--text-muted) !important;
+  font-weight: 500;
+  padding: 0.5rem 0.85rem !important;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.app-nav-links .nav-link:hover {
+  color: var(--text) !important;
+  background: var(--bg-alt);
+}
+
+.app-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app-nav-right .navbar-nav {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.app-nav-right .nav-link {
+  color: var(--text-muted) !important;
+  font-weight: 500;
+}
+
+.app-nav-right .nav-link:hover {
+  color: var(--accent) !important;
+}
+
+.app-nav-right .btn-link.nav-link {
+  text-decoration: none;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  margin-left: 0.5rem;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-alt);
+}
+
+.navbar-toggler {
+  border-color: var(--border) !important;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 0.5rem 1.15rem;
+  transition: transform 0.1s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  opacity: 0.9;
+  color: var(--accent-text) !important;
+}
+
+.btn-secondary, .btn-outline-secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover, .btn-outline-secondary:hover {
+  background: var(--bg-alt) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+.btn-outline-danger {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: transparent;
+}
+
+.btn-outline-danger:hover {
+  background: var(--danger) !important;
+  border-color: var(--danger) !important;
+  color: var(--danger-text) !important;
+}
+
+.btn-danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--danger-text);
+}
+
+.btn-danger:hover {
+  background: var(--danger) !important;
+  border-color: var(--danger) !important;
+  opacity: 0.9;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+.btn-lg {
+  padding: 0.7rem 1.6rem;
+  font-size: 1rem;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus, .form-select:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.btn-group .btn {
+  border-radius: 999px !important;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.form-control, .form-select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.85rem;
+}
+
+.form-control:focus, .form-select:focus {
+  background: var(--bg);
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.form-text {
+  color: var(--text-muted);
+  font-size: 0.82rem;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
+  color: var(--text-muted);
   text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.form-floating > label {
+  color: var(--text-muted);
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.validation-summary-errors ul {
+  margin-bottom: 0;
+  padding-left: 1.1rem;
+}
+
+/* A form is the main content of Create/Edit/Login/Register/etc — give it a
+   card container so it doesn't float bare against the page background. The
+   navbar's own logout form is excluded — it's just one inline button, not a
+   page section. */
+form:not(.form-inline) {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+}
+
+.app-nav form {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ==========================================================================
+   Cards / containers / alerts
+   ========================================================================== */
+.alert {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.alert-warning {
+  background: color-mix(in srgb, var(--warning) 15%, var(--bg));
+  border-color: color-mix(in srgb, var(--warning) 40%, var(--border));
+  color: var(--text);
+}
+
+/* ==========================================================================
+   Badges (status pills)
+   ========================================================================== */
+.badge {
+  font-weight: 600;
+  padding: 0.4em 0.75em;
+  border-radius: 999px;
+  letter-spacing: 0.01em;
+}
+
+.badge.bg-secondary { background: var(--text-muted) !important; color: var(--bg) !important; }
+.badge.bg-info { background: color-mix(in srgb, var(--accent) 55%, #22d3ee) !important; color: #06202b !important; }
+.badge.bg-primary { background: var(--accent) !important; color: var(--accent-text) !important; }
+.badge.bg-success { background: var(--success) !important; color: #06280d !important; }
+.badge.bg-danger { background: var(--danger) !important; color: var(--danger-text) !important; }
+.badge.bg-dark { background: var(--text) !important; color: var(--bg) !important; }
+.badge.bg-warning { background: var(--warning) !important; color: #3a2600 !important; }
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+.table-responsive {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.table {
+  margin-bottom: 0;
+  color: var(--text);
+}
+
+.table > :not(caption) > * > * {
+  background: transparent;
+  border-bottom-color: var(--border);
+  color: var(--text);
+  padding: 0.85rem 1rem;
+}
+
+.table thead th {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+
+.table-hover > tbody > tr:hover > * {
+  background: var(--bg-alt);
+}
+
+/* ==========================================================================
+   List group (status history)
+   ========================================================================== */
+.list-group-item {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--text);
+  padding: 0.9rem 1.1rem;
+}
+
+.list-group {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.list-group-item + .list-group-item {
+  border-top-width: 1px;
+}
+
+/* ==========================================================================
+   Home hero
+   ========================================================================== */
+.hero-lead {
+  font-size: 1.1rem;
+}
+
+.feature-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.feature-card h5 {
+  margin-bottom: 0.5rem;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.app-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+.app-footer a {
+  color: var(--text-muted);
+  text-decoration: underline;
+}
+
+/* dl rows (Details / Delete) */
+dl.row dt {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
