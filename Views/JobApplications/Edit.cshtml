@@ -1,0 +1,55 @@
+@model JobTracker.Models.JobApplication
+@using JobTracker.Models
+@{
+    ViewData["Title"] = "Edit Application";
+}
+
+<h1>Edit Application</h1>
+
+<div class="col-md-6">
+    <form asp-action="Edit" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="CompanyName" class="form-label"></label>
+            <input asp-for="CompanyName" class="form-control" />
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="RoleTitle" class="form-label"></label>
+            <input asp-for="RoleTitle" class="form-control" />
+            <span asp-validation-for="RoleTitle" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DateApplied" class="form-label"></label>
+            <input asp-for="DateApplied" class="form-control" />
+            <span asp-validation-for="DateApplied" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CurrentStatus" class="form-label"></label>
+            <select asp-for="CurrentStatus" class="form-select" asp-items="Html.GetEnumSelectList<ApplicationStatus>()"></select>
+            <div class="form-text">Changing this adds an entry to the application's status history.</div>
+        </div>
+        <div class="mb-3">
+            <label for="statusNote" class="form-label">Note for this status change (optional)</label>
+            <input type="text" id="statusNote" name="statusNote" class="form-control" placeholder="e.g. Recruiter called to schedule a first interview" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="JobUrl" class="form-label"></label>
+            <input asp-for="JobUrl" class="form-control" />
+            <span asp-validation-for="JobUrl" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Notes" class="form-label"></label>
+            <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center py-4">
+    <h1 class="display-5 fw-bold">JobTracker</h1>
+    <p class="lead text-muted col-lg-8 mx-auto">
+        A small ASP.NET Core MVC app for tracking job &amp; internship applications — company, role,
+        status, and a full history of how each one progressed. Built to actually use during my own
+        job search, and to demonstrate ASP.NET Core Identity, Entity Framework Core, and a real
+        one-to-many database relationship end to end.
+    </p>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <a asp-controller="JobApplications" asp-action="Index" class="btn btn-primary btn-lg mt-2">Go to my applications</a>
+    }
+    else
+    {
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg mt-2">Create an account</a>
+        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-secondary btn-lg mt-2">Sign in</a>
+    }
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-md-4">
+        <h5>Track every application</h5>
+        <p class="text-muted">Company, role, date applied, notes, and a link back to the listing — all in one place instead of scattered across emails.</p>
+    </div>
+    <div class="col-md-4">
+        <h5>Full status history</h5>
+        <p class="text-muted">Every status change — Applied, Interview, Offer, Rejected — is logged with a timestamp, so you can see exactly how each application progressed.</p>
+    </div>
+    <div class="col-md-4">
+        <h5>Spot the ones going stale</h5>
+        <p class="text-muted">Applications with no update in 14+ days are flagged on the dashboard as a nudge to follow up.</p>
+    </div>
+</div>

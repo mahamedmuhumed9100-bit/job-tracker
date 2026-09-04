@@ -1,0 +1,68 @@
+@model IEnumerable<JobTracker.Models.JobApplication>
+@using JobTracker.Models
+@{
+    ViewData["Title"] = "My Applications";
+    var currentFilter = ViewBag.StatusFilter as ApplicationStatus?;
+    var staleIds = ViewBag.StaleIds as HashSet<int> ?? [];
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>My Applications</h1>
+    <a asp-action="Create" class="btn btn-primary">+ Add application</a>
+</div>
+
+<div class="mb-3">
+    <div class="btn-group flex-wrap" role="group" aria-label="Filter by status">
+        <a asp-action="Index" class="btn btn-sm @(currentFilter is null ? "btn-secondary" : "btn-outline-secondary")">All</a>
+        @foreach (var status in Enum.GetValues<ApplicationStatus>())
+        {
+            <a asp-action="Index" asp-route-status="@status"
+               class="btn btn-sm @(currentFilter == status ? "btn-secondary" : "btn-outline-secondary")">
+                @status.DisplayName()
+            </a>
+        }
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No applications yet — add your first one to get started.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Applied</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var app in Model)
+                {
+                    <tr>
+                        <td>@app.CompanyName</td>
+                        <td>@app.RoleTitle</td>
+                        <td>@app.DateApplied.ToString("d MMM yyyy")</td>
+                        <td>
+                            <span class="badge @app.CurrentStatus.BadgeClass()">@app.CurrentStatus.DisplayName()</span>
+                            @if (staleIds.Contains(app.Id))
+                            {
+                                <span class="badge bg-warning text-dark ms-1" title="No update in 14+ days">Follow up?</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-action="Details" asp-route-id="@app.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                            <a asp-action="Edit" asp-route-id="@app.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@app.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

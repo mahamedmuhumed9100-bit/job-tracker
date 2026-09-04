@@ -1,0 +1,49 @@
+@model JobTracker.Models.JobApplication
+@using JobTracker.Models
+@{
+    ViewData["Title"] = "Add Application";
+}
+
+<h1>Add Application</h1>
+
+<div class="col-md-6">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="CompanyName" class="form-label"></label>
+            <input asp-for="CompanyName" class="form-control" autofocus />
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="RoleTitle" class="form-label"></label>
+            <input asp-for="RoleTitle" class="form-control" />
+            <span asp-validation-for="RoleTitle" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DateApplied" class="form-label"></label>
+            <input asp-for="DateApplied" class="form-control" />
+            <span asp-validation-for="DateApplied" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CurrentStatus" class="form-label"></label>
+            <select asp-for="CurrentStatus" class="form-select" asp-items="Html.GetEnumSelectList<ApplicationStatus>()"></select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="JobUrl" class="form-label"></label>
+            <input asp-for="JobUrl" class="form-control" placeholder="https://..." />
+            <span asp-validation-for="JobUrl" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Notes" class="form-label"></label>
+            <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

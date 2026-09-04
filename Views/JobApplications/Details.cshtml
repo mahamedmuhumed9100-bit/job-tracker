@@ -1,0 +1,50 @@
+@model JobTracker.Models.JobApplication
+@using JobTracker.Models
+@{
+    ViewData["Title"] = $"{Model.CompanyName} — {Model.RoleTitle}";
+}
+
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+        <h1>@Model.CompanyName</h1>
+        <h5 class="text-muted">@Model.RoleTitle</h5>
+    </div>
+    <span class="badge fs-6 @Model.CurrentStatus.BadgeClass()">@Model.CurrentStatus.DisplayName()</span>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Date applied</dt>
+    <dd class="col-sm-9">@Model.DateApplied.ToString("d MMMM yyyy")</dd>
+
+    @if (!string.IsNullOrWhiteSpace(Model.JobUrl))
+    {
+        <dt class="col-sm-3">Listing</dt>
+        <dd class="col-sm-9"><a href="@Model.JobUrl" target="_blank" rel="noopener">@Model.JobUrl</a></dd>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+    {
+        <dt class="col-sm-3">Notes</dt>
+        <dd class="col-sm-9">@Model.Notes</dd>
+    }
+</dl>
+
+<h4 class="mt-4">Status history</h4>
+<ul class="list-group mb-3">
+    @foreach (var entry in Model.StatusHistory.OrderByDescending(h => h.ChangedAt))
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <span class="badge @entry.Status.BadgeClass() me-2">@entry.Status.DisplayName()</span>
+                @if (!string.IsNullOrWhiteSpace(entry.Note))
+                {
+                    <span>@entry.Note</span>
+                }
+            </div>
+            <small class="text-muted">@entry.ChangedAt.ToLocalTime().ToString("d MMM yyyy, HH:mm")</small>
+        </li>
+    }
+</ul>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+<a asp-action="Index" class="btn btn-outline-secondary">Back to list</a>
