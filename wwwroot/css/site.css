@@ -63,6 +63,14 @@ a {
   color: var(--accent);
 }
 
+/* Bootstrap's own .text-muted utility sets color with !important using its
+   own --bs-secondary-color variable, which isn't theme-aware — it stays a
+   fixed gray regardless of data-theme, so on the dark theme it renders as
+   near-invisible dark-on-dark. Override it explicitly to win the cascade. */
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: -0.01em;
