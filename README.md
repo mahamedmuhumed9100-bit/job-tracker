@@ -1,5 +1,12 @@
 # JobTracker
 
+[![Build and Test](https://github.com/mahamedmuhumed9100-bit/job-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/mahamedmuhumed9100-bit/job-tracker/actions/workflows/ci.yml)
+![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
+
+**Live demo:** https://jobtracker-j294.onrender.com
+*(free Render instance — the first load can take ~30 seconds while it wakes up)*
+
 An ASP.NET Core MVC app for tracking job & internship applications — company, role,
 status, and a full history of how each one progressed. Built to actually use during
 my own job search, and to back up the C# / ASP.NET MVC / SQL skills on my CV with a
@@ -33,6 +40,20 @@ deliberately free of EF Core or ASP.NET Core dependencies so it can be unit test
 in isolation. [`JobTracker.Tests`](JobTracker.Tests) covers it with 16 tests: status
 transitions, history ordering, the "stale application" detection, and edge cases
 (no-op status changes, future dates, final states).
+
+## Design decisions
+
+- **Business rules outside the framework.** `JobApplicationService` has no EF Core or
+  ASP.NET Core dependencies, so the rule "every status change is logged" is tested
+  with plain xUnit — no database, no web host.
+- **Every query is scoped to the signed-in user** (`a.UserId == CurrentUserId`), so
+  guessing another application's ID in the URL returns 404, not someone else's data.
+- **Over-posting protection** with `[Bind(...)]` whitelists and anti-forgery tokens on
+  every POST.
+- **History as its own table** (one-to-many) rather than overwriting a status column,
+  so the Details page can show a full timeline and nothing is ever lost.
+- **Deploy config as code.** `render.yaml` provisions the web service and database
+  together, and migrations run on startup, so a fresh deploy needs zero manual steps.
 
 ## Running locally
 
